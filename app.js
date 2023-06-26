@@ -3,8 +3,6 @@ const { getTopics } = require("./controllers/topics.controllors");
 
 const app = express();
 
-app.use(express.json());
-
 app.get("/api/topics", getTopics);
 
 module.exports = app;

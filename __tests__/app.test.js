@@ -17,20 +17,26 @@ describe("GET /api/topics", () => {
   test("should return a 404 status code if path does not excist", () => {
     return request(app).get("/api/space").expect(404);
   });
-  //Checks it comes back with an ok code
-
-  //test if path doesnt excist = error test
 
   test("should retrieve all topics and return an array of topic objects", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
       .then((response) => {
-        expect(Array.isArray(response.body)).toBe(true);
-        expect(response.body.length).toBe(3);
-        expect(response.body[0]).toHaveProperty("slug");
-        expect(response.body[0]).toHaveProperty("description");
+        console.log(response.body);
+        expect(Array.isArray(response.body.topics)).toBe(true);
+
+        expect(response.body.topics.length).toBe(3);
+
+        response.body.topics.forEach((topic) => {
+          expect(topic).toHaveProperty("slug");
+          expect(topic.slug).toEqual(expect.any(String));
+        });
+
+        response.body.topics.forEach((topic) => {
+          expect(topic).toHaveProperty("description");
+          expect(topic.description).toEqual(expect.any(String));
+        });
       });
   });
 });
-//Checks that it returns an array

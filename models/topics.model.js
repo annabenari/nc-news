@@ -8,7 +8,6 @@ function selectTopicsFromDatabase() {
       FROM topics;`
     )
     .then((result) => {
-      console.log(result.rows);
       return result.rows;
     });
 }
