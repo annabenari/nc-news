@@ -5,16 +5,15 @@ const app = require("../app");
 const data = require("../db/data/test-data");
 
 beforeEach(() => seed(data));
-// It ensures that the tests start with a predefined dataset or configuration, providing consistent results and avoiding interference between test cases.
 
 afterAll(() => db.end());
-//This ensures that the database connection is properly closed once all the tests have finished running, preventing resource leaks or unnecessary connections.
 
 describe("GET /api/topics", () => {
   test("should return a 200 status code", () => {
     return request(app).get("/api/topics").expect(200);
   });
-  test("should return a 404 status code if path does not excist", () => {
+
+  test("should return a 404 status code if path does not exist", () => {
     return request(app).get("/api/space").expect(404);
   });
 
@@ -24,15 +23,11 @@ describe("GET /api/topics", () => {
       .expect(200)
       .then((response) => {
         expect(Array.isArray(response.body.topics)).toBe(true);
-
         expect(response.body.topics.length).toBe(3);
 
         response.body.topics.forEach((topic) => {
           expect(topic).toHaveProperty("slug");
           expect(topic.slug).toEqual(expect.any(String));
-        });
-
-        response.body.topics.forEach((topic) => {
           expect(topic).toHaveProperty("description");
           expect(topic.description).toEqual(expect.any(String));
         });
@@ -41,19 +36,50 @@ describe("GET /api/topics", () => {
 });
 
 describe("GET /api/", () => {
-  test("should return a 200 status code", () => {
-    return request(app).get("/api/").expect(200);
-  });
-  test("should return a 404 status code if path does not excist", () => {
+  test("should return a 404 status code if path does not exist", () => {
     return request(app).get("/api/space").expect(404);
   });
+
   test("should have a description of all endpoints", () => {
+    const endpointJson = require("../endpoints.json");
+
     return request(app)
-      .get("/api")
+      .get("/api/")
       .expect(200)
       .then((response) => {
-        const endpointJson = require("../endpoints.json");
         expect(response.body.api).toEqual(endpointJson);
+      });
+  });
+});
+
+describe("GET /api/articles/:article_id", () => {
+  test("should return a 200 status code", () => {
+    return request(app).get("/api/articles/1").expect(200);
+  });
+
+  test("should return a 404 status code for an article that doesn't exist", () => {
+    const nonExistentArticleId = 76;
+
+    return request(app)
+      .get(`/api/articles/${nonExistentArticleId}`)
+      .expect(404);
+  });
+
+  test("should return the article details for an existing article", () => {
+    const existingArticleId = 6;
+
+    return request(app)
+      .get(`/api/articles/${existingArticleId}`)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.articles[0]).toHaveProperty("author");
+        expect(response.body.articles[0]).toHaveProperty("title");
+        expect(response.body.articles[0]).toHaveProperty("article_id");
+        expect(response.body.articles[0]).toHaveProperty("body");
+        expect(response.body.articles[0]).toHaveProperty("topic");
+        expect(response.body.articles[0]).toHaveProperty("created_at");
+        expect(response.body.articles[0]).toHaveProperty("votes");
+        expect(response.body.articles[0]).toHaveProperty("article_img_url");
       });
   });
 });
