@@ -23,7 +23,6 @@ describe("GET /api/topics", () => {
       .get("/api/topics")
       .expect(200)
       .then((response) => {
-        console.log(response.body);
         expect(Array.isArray(response.body.topics)).toBe(true);
 
         expect(response.body.topics.length).toBe(3);
@@ -37,6 +36,24 @@ describe("GET /api/topics", () => {
           expect(topic).toHaveProperty("description");
           expect(topic.description).toEqual(expect.any(String));
         });
+      });
+  });
+});
+
+describe("GET /api/", () => {
+  test("should return a 200 status code", () => {
+    return request(app).get("/api/").expect(200);
+  });
+  test("should return a 404 status code if path does not excist", () => {
+    return request(app).get("/api/space").expect(404);
+  });
+  test("should have a description of all endpoints", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((response) => {
+        const endpointJson = require("../endpoints.json");
+        expect(response.body.api).toEqual(endpointJson);
       });
   });
 });
