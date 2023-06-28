@@ -13,8 +13,8 @@ describe("GET /api/topics", () => {
     return request(app).get("/api/topics").expect(200);
   });
 
-  test("should return a 404 status code if path does not exist", () => {
-    return request(app).get("/api/space").expect(404);
+  test("should return a 400 status code if path does not exist", () => {
+    return request(app).get("/api/space").expect(400);
   });
 
   test("should retrieve all topics and return an array of topic objects", () => {
@@ -36,8 +36,8 @@ describe("GET /api/topics", () => {
 });
 
 describe("GET /api/", () => {
-  test("should return a 404 status code if path does not exist", () => {
-    return request(app).get("/api/space").expect(404);
+  test("should return a 400 status code if path does not exist", () => {
+    return request(app).get("/api/space").expect(400);
   });
 
   test("should have a description of all endpoints", () => {
@@ -81,5 +81,11 @@ describe("GET /api/articles/:article_id", () => {
         expect(response.body.articles[0]).toHaveProperty("votes");
         expect(response.body.articles[0]).toHaveProperty("article_img_url");
       });
+  });
+});
+
+describe("GET /api/articles/", () => {
+  test("should return a 200 status code", () => {
+    return request(app).get("/api/articles/").expect(200);
   });
 });
