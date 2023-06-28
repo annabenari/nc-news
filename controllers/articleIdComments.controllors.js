@@ -1,4 +1,4 @@
-const { getCommentsByArticleId } = require("../models/comments.model");
+const { getCommentsByArticleId } = require("../models/articleIdComments.model");
 
 exports.getArticleIdComments = (req, res, next) => {
   const id = req.params.article_id;
