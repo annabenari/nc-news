@@ -117,3 +117,31 @@ describe("GET /api/articles/", () => {
       });
   });
 });
+
+describe("GET /api/articles/:article_id/comments", () => {
+  const anotherExistingArticleId = 1;
+
+  test("should return a 200 status code", () => {
+    return request(app)
+      .get(`/api/articles/${anotherExistingArticleId}/comments`)
+      .expect(200);
+  });
+
+  test("should return the article comment details for an existing article", () => {
+    return request(app)
+      .get(`/api/articles/${anotherExistingArticleId}/comments`)
+      .expect(200)
+      .then((response) => {
+        console.log(response.body.comments);
+        expect(Array.isArray(response.body.comments)).toBe(true);
+      });
+  });
+
+  test("should return a 404 status code for an article that doesn't exist", () => {
+    const nonExistentArticleId = 76;
+
+    return request(app)
+      .get(`/api/articles/${nonExistentArticleId}/comments`)
+      .expect(404);
+  });
+});
