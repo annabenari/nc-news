@@ -72,9 +72,14 @@ describe("GET /api/articles/:article_id", () => {
       .get(`/api/articles/${existingArticleId}`)
       .expect(200)
       .then((response) => {
+        expect(Array.isArray(response.articles)).toBe(false);
+        //tomatchobject
         expect(response.body.articles[0]).toHaveProperty("author");
         expect(response.body.articles[0]).toHaveProperty("title");
-        expect(response.body.articles[0]).toHaveProperty("article_id");
+        expect(response.body.articles[0]).toHaveProperty(
+          "article_id",
+          existingArticleId
+        );
         expect(response.body.articles[0]).toHaveProperty("body");
         expect(response.body.articles[0]).toHaveProperty("topic");
         expect(response.body.articles[0]).toHaveProperty("created_at");
@@ -82,4 +87,15 @@ describe("GET /api/articles/:article_id", () => {
         expect(response.body.articles[0]).toHaveProperty("article_img_url");
       });
   });
+});
+
+test("should return the article details for an existing article", () => {
+  const anotherExistingArticleId = 1;
+
+  return request(app)
+    .get(`/api/articles/${anotherExistingArticleId}`)
+    .expect(200)
+    .then((response) => {
+      expect(Array.isArray(response.articles)).toBe(false);
+    });
 });
