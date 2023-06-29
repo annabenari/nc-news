@@ -132,7 +132,6 @@ describe("GET /api/articles/:article_id/comments", () => {
       .get(`/api/articles/${anotherExistingArticleId}/comments`)
       .expect(200)
       .then((response) => {
-        console.log(response.body.comments);
         expect(Array.isArray(response.body.comments)).toBe(true);
       });
   });
