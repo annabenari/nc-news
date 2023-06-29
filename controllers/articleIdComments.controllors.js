@@ -7,7 +7,6 @@ exports.getArticleIdComments = (req, res, next) => {
       res.status(200).send({ comments });
     })
     .catch((error) => {
-      console.log("Error in getArticleIdComments:", error);
       next(error);
     });
 };

@@ -6,6 +6,7 @@ const { getArticles } = require("./controllers/allArticles.controllors");
 const {
   getArticleIdComments,
 } = require("./controllers/articleIdComments.controllors");
+const { addComment } = require("./controllers/addComments.controller");
 const {
   handlePsqlErrors,
   handleCustomErrors,
@@ -19,6 +20,8 @@ app.get("/api/", getApiData);
 app.get("/api/articles/:article_id", getArticleId);
 app.get("/api/articles/", getArticles);
 app.get("/api/articles/:article_id/comments", getArticleIdComments);
+
+app.post("/api/articles/:article_id/comments", addComment);
 
 app.all("*", (_, res) => {
   res.status(400).send({ msg: "Not Found" });

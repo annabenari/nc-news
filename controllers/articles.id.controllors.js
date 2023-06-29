@@ -7,7 +7,6 @@ exports.getArticleId = (req, res, next) => {
       res.status(200).send({ articles });
     })
     .catch((error) => {
-      console.log("Error in getArticleId:", error);
       next(error);
     });
 };

@@ -14,7 +14,6 @@ function selectArticleId(id) {
       return articles;
     })
     .catch((error) => {
-      console.log("Error executing selectArticleId:", error);
       throw error;
     });
 }

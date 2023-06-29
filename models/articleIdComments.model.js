@@ -5,7 +5,6 @@ function getCommentsByArticleId(id) {
     .query(`SELECT * FROM comments WHERE article_id = $1`, [id])
     .then((result) => {
       const comments = result.rows;
-      console.log(result.rows, "RESULT.ROW");
       if (comments.length === 0) {
         return Promise.reject({
           status: 404,
@@ -15,7 +14,6 @@ function getCommentsByArticleId(id) {
       return comments;
     })
     .catch((error) => {
-      console.log("Error executing getCommentsByArticleId:", error);
       throw error;
     });
 }
