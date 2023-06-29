@@ -144,3 +144,65 @@ describe("GET /api/articles/:article_id/comments", () => {
       .expect(404);
   });
 });
+
+describe("POST /api/articles/:article_id/comments", () => {
+  test("should return a 201 status code", () => {
+    const articleId = 1;
+    const commentData = {
+      username: "butter_bridge",
+      body: "Testing",
+    };
+
+    return request(app)
+      .post(`/api/articles/${articleId}/comments`)
+      .send(commentData)
+      .expect(201)
+      .then((response) => {
+        const comment = response.body.comments;
+        expect(comment[0].author).toBe("butter_bridge");
+        expect(comment[0].body).toBe("Testing");
+      });
+  });
+});
+
+test("should return a 500 status code", () => {
+  const articleId = 1;
+  const commentData = {
+    username: "Anna123",
+    body: "Testing",
+  };
+
+  return request(app)
+    .post(`/api/articles/${articleId}/comments`)
+    .send(commentData)
+    .expect(500);
+});
+
+test("should return a 404 status code for invalid article ID", () => {
+  const articleId = 999;
+  const commentData = {
+    username: "Anna123",
+    body: "Testing",
+  };
+
+  return request(app)
+    .post(`/api/articles/${articleId}/comments`)
+    .send(commentData)
+    .expect(404)
+    .then((response) => {
+      expect(response.body.msg).toBe(`Article not found for ID: ${articleId}`);
+    });
+});
+
+test("should return a 400 status code for missing required fields", () => {
+  const articleId = 1;
+  const invalidCommentData = {};
+
+  return request(app)
+    .post(`/api/articles/${articleId}/comments`)
+    .send(invalidCommentData)
+    .expect(400)
+    .expect((response) => {
+      expect(response.body.msg).toBe("Bad Request - Missing required fields");
+    });
+});
