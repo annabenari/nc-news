@@ -221,4 +221,36 @@ test("should return a 400 status code for missing required fields", () => {
 //         expect(updatedArticle[0].votes).toBe(initialVoteCount + newVotes);
 //       });
 //   });
+
+//   test("should update an article by decrementing votes", () => {
+//     const articleId = 2;
+//     const newVotes = -3;
+
+//     return request(app)
+//       .patch(`/api/articles/${articleId}`)
+//       .send({ inc_votes: newVotes })
+//       .expect(200)
+//       .then((response) => {
+//         const updatedArticle = response.body.article;
+//         expect(updatedArticle.votes).toBe(initialVoteCount + newVotes);
+//       });
+//   });
+//   test("should return a 400 error for an invalid vote increment", () => {
+//     const articleId = 3;
+//     const invalidVotes = "invalid";
+
+//     return request(app)
+//       .patch(`/api/articles/${articleId}`)
+//       .send({ inc_votes: invalidVotes })
+//       .expect(400);
+//   });
+
+//   test("should return a 404 error for a non-existing article", () => {
+//     const nonExistingArticleId = 999;
+
+//     return request(app)
+//       .patch(`/api/articles/${nonExistingArticleId}`)
+//       .send({ inc_votes: 1 })
+//       .expect(404);
+//   });
 // });

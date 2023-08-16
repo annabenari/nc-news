@@ -11,6 +11,10 @@ const {
 } = require("./controllers/postCommentById.controllor");
 
 const {
+  updateArticleVote,
+} = require("./controllers/articleIDPatch.controllors");
+
+const {
   handlePsqlErrors,
   handleCustomErrors,
   handleServerErrors,
@@ -25,7 +29,7 @@ app.get("/api/articles/:article_id", getArticleId);
 app.get("/api/articles/", getArticles);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", postCommentsByArticleId);
-app.patch("/api/articles/:article_id", getArticleId);
+app.patch("/api/articles/:article_id", updateArticleVote); // Remove the trailing slash
 
 app.all("*", (_, res) => {
   res.status(400).send({ msg: "Not Found" });
