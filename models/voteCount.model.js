@@ -6,8 +6,8 @@ function updateArticleVote(article_Id, voteIncrement) {
       `UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *`,
       [voteIncrement, article_Id]
     )
-    .then(([updatedArticle]) => {
-      return updatedArticle;
+    .then((updatedArticle) => {
+      return updatedArticle.rows;
     });
 }
 

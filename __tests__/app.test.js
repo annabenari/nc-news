@@ -217,7 +217,8 @@ test("should return a 400 status code for missing required fields", () => {
 //       .send({ inc_votes: newVotes })
 //       .expect(200)
 //       .then((response) => {
-//         const updatedArticle = response.body.articles;
+//         const updatedArticle = response.body.article;
+//         console.log(updatedArticle);
 //         expect(updatedArticle[0].votes).toBe(initialVoteCount + newVotes);
 //       });
 //   });
