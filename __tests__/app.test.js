@@ -48,6 +48,15 @@ describe("GET /api/", () => {
       .expect(200)
       .then((response) => {
         expect(response.body.api).toEqual(endpointJson);
+
+        Object.values(response.body.api).forEach((api) => {
+          expect(api).toHaveProperty("description");
+          expect(api.description).toEqual(expect.any(String));
+          expect(api).toHaveProperty("queries");
+          expect(api.queries).toEqual(expect.any(Array));
+          expect(api).toHaveProperty("exampleResponse");
+          expect(api.exampleResponse).toEqual(expect.any(Object));
+        });
       });
   });
 });
