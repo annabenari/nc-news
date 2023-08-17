@@ -5,10 +5,8 @@ const app = require("../app");
 const data = require("../db/data/test-data");
 
 beforeEach(() => seed(data));
-// It ensures that the tests start with a predefined dataset or configuration, providing consistent results and avoiding interference between test cases.
 
 afterAll(() => db.end());
-//This ensures that the database connection is properly closed once all the tests have finished running, preventing resource leaks or unnecessary connections.
 
 describe("GET /api/topics", () => {
   test("should return a 200 status code", () => {
@@ -54,6 +52,15 @@ describe("GET /api/", () => {
       .then((response) => {
         const endpointJson = require("../endpoints.json");
         expect(response.body.api).toEqual(endpointJson);
+
+        Object.values(response.body.api).forEach((api) => {
+          expect(api).toHaveProperty("description");
+          expect(api.description).toEqual(expect.any(String));
+          expect(api).toHaveProperty("queries");
+          expect(api.queries).toEqual(expect.any(Array));
+          expect(api).toHaveProperty("exampleResponse");
+          expect(api.exampleResponse).toEqual(expect.any(Object));
+        });
       });
   });
 });
