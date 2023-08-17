@@ -184,4 +184,19 @@ describe("GET /api/articles/:article_id/comments", () => {
         });
       });
   });
+
+  test("should ordered by date descending", () => {
+    return request(app)
+      .get(`/api/articles/${anotherExistingArticleId}/comments`)
+      .expect(200)
+      .expect((response) => {
+        let body = response.body.comments;
+        console.log(body);
+        for (let i = 1; i < body.length; i++) {
+          expect(Date.parse(body[i].created_at)).toBeLessThanOrEqual(
+            Date.parse(body[i - 1].created_at)
+          );
+        }
+      });
+  });
 });
