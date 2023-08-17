@@ -6,6 +6,7 @@ const { getArticles } = require("./controllers/allArticles.controllors");
 const {
   getCommentsByArticleId,
 } = require("./controllers/articleIdComments.controllors");
+const { addComment } = require("./controllers/addComments.controller");
 const {
   postCommentsByArticleId,
 } = require("./controllers/postCommentById.controllor");
@@ -25,6 +26,8 @@ app.get("/api/articles/:article_id", getArticleId);
 app.get("/api/articles/", getArticles);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", postCommentsByArticleId);
+
+app.post("/api/articles/:article_id/comments", addComment);
 
 app.all("*", (_, res) => {
   res.status(400).send({ msg: "Not Found" });
