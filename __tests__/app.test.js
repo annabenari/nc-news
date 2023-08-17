@@ -88,14 +88,3 @@ describe("GET /api/articles/:article_id", () => {
       });
   });
 });
-
-test("should return the article details for an existing article", () => {
-  const anotherExistingArticleId = 1;
-
-  return request(app)
-    .get(`/api/articles/${anotherExistingArticleId}`)
-    .expect(200)
-    .then((response) => {
-      expect(Array.isArray(response.articles)).toBe(false);
-    });
-});
