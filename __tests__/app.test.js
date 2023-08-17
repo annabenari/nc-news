@@ -116,4 +116,30 @@ describe("GET /api/articles/", () => {
         });
       });
   });
+
+  test("should ordered by date descending", () => {
+    return request(app)
+      .get("/api/articles/")
+      .expect(200)
+      .expect((response) => {
+        let body = response.body.articles;
+        console.log(body);
+        for (let i = 1; i < body.length; i++) {
+          expect(Date.parse(body[i].created_at)).toBeLessThanOrEqual(
+            Date.parse(body[i - 1].created_at)
+          );
+        }
+      });
+  });
+
+  test("does not have a body property", () => {
+    return request(app)
+      .get("/api/articles/")
+      .expect(200)
+      .expect((response) => {
+        response.body.articles.forEach((article) => {
+          expect(article).not.toHaveProperty("body");
+        });
+      });
+  });
 });

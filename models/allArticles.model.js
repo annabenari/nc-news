@@ -27,7 +27,6 @@ GROUP BY
   articles.article_img_url
 ORDER BY
   articles.created_at DESC;
-
     `
     )
     .then((result) => {
@@ -44,7 +43,7 @@ ORDER BY
           title: article.title,
           article_id: article.article_id,
           topic: article.topic,
-          date: article.created_at,
+          created_at: article.created_at,
           votes: article.votes,
           image: article.article_img_url,
           comment_count: parseInt(article.comment_count),
