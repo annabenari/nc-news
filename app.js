@@ -18,6 +18,9 @@ const {
   handleCustomErrors,
   handleServerErrors,
 } = require("./error");
+const {
+  deleteCommentByCommentId,
+} = require("./controllers/deleteComment.controllor");
 
 const app = express();
 app.use(express.json());
@@ -29,6 +32,7 @@ app.get("/api/articles/", getArticles);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", postCommentsByArticleId);
 app.patch("/api/articles/:article_id", patchArticleVote);
+app.delete("/api/comments/:comment_id", deleteCommentByCommentId);
 
 app.all("*", (_, res) => {
   res.status(400).send({ msg: "Not Found" });

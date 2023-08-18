@@ -332,3 +332,39 @@ describe(" PATCH /api/articles/:article_id", () => {
       .expect(404);
   });
 });
+
+describe("DELETE /api/comments/:comment_id", () => {
+  test("should delete the given comment by comment_id and respond with status 204", () => {
+    const commentIdToDelete = 1;
+
+    return request(app)
+      .delete(`/api/comments/${commentIdToDelete}`)
+      .expect(204);
+  });
+
+  test("should respond with  404 if commentid doesn't exist", () => {
+    const nonExistentCommentId = 999;
+
+    return request(app)
+      .delete(`/api/comments/${nonExistentCommentId}`)
+      .expect(404)
+      .then((response) => {
+        const error = response.body;
+        expect(error.msg).toBe(
+          `Comment not found for ID: ${nonExistentCommentId}`
+        );
+      });
+  });
+
+  test("should respond status 400 if commentid is invalid", () => {
+    const invalidCommentId = "invalid_id";
+
+    return request(app)
+      .delete(`/api/comments/${invalidCommentId}`)
+      .expect(400)
+      .then((response) => {
+        const error = response.body;
+        expect(error.msg).toBe("Bad Request");
+      });
+  });
+});
