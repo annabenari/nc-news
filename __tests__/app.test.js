@@ -116,7 +116,6 @@ describe("GET /api/articles/:article_id", () => {
         .get("/api/articles/")
         .expect(200)
         .expect((response) => {
-          console.log(response.body.articles[0]);
           expect(response.body.articles[0]).toEqual(
             expect.objectContaining({
               author: "icellusedkars",
@@ -140,7 +139,6 @@ describe("GET /api/articles/:article_id", () => {
       .expect(200)
       .expect((response) => {
         let body = response.body.articles;
-        console.log(body);
         for (let i = 1; i < body.length; i++) {
           expect(Date.parse(body[i].created_at)).toBeLessThanOrEqual(
             Date.parse(body[i - 1].created_at)
@@ -212,7 +210,6 @@ describe("GET /api/articles/:article_id/comments", () => {
       .expect(200)
       .expect((response) => {
         let body = response.body.comments;
-        console.log(body);
         for (let i = 1; i < body.length; i++) {
           expect(Date.parse(body[i].created_at)).toBeLessThanOrEqual(
             Date.parse(body[i - 1].created_at)
