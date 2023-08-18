@@ -3,6 +3,8 @@ const db = require("../db/connection");
 const request = require("supertest");
 const app = require("../app");
 const data = require("../db/data/test-data");
+const { response } = require("../app");
+let articles = require("../db/data/test-data/articles");
 
 beforeEach(() => seed(data));
 
@@ -279,4 +281,54 @@ test("should return a 400 status code for missing required fields", () => {
     .expect((response) => {
       expect(response.body.msg).toBe("Bad Request - Missing required fields");
     });
+});
+
+describe(" PATCH /api/articles/:article_id", () => {
+  test("should update an article by incrementing votes", async () => {
+    const articleId = 1;
+    const newVotes = 5;
+    const initialVoteCount = articles[0].votes;
+
+    return request(app)
+      .patch(`/api/articles/${articleId}`)
+      .send({ inc_votes: newVotes })
+      .expect(200)
+      .then((response) => {
+        const updatedArticle = response.body.article;
+        expect(updatedArticle[0].votes).toBe(initialVoteCount + newVotes);
+      });
+  });
+
+  test("should update an article by decrementing votes", () => {
+    const articleId = 2;
+    const newVotes = -3;
+    const initialVoteCount = articles[1].votes || 0;
+
+    return request(app)
+      .patch(`/api/articles/${articleId}`)
+      .send({ inc_votes: newVotes })
+      .expect(200)
+      .then((response) => {
+        const updatedArticle = response.body.article;
+        expect(updatedArticle[0].votes).toBe(initialVoteCount + newVotes);
+      });
+  });
+  test("should return a 400 error for an invalid vote increment", () => {
+    const articleId = 3;
+    const invalidVotes = "invalid";
+
+    return request(app)
+      .patch(`/api/articles/${articleId}`)
+      .send({ inc_votes: invalidVotes })
+      .expect(400);
+  });
+
+  test("should return a 404 error for a non-existing article", () => {
+    const nonExistingArticleId = 999;
+
+    return request(app)
+      .patch(`/api/articles/${nonExistingArticleId}`)
+      .send({ inc_votes: 1 })
+      .expect(404);
+  });
 });

@@ -9,6 +9,9 @@ const {
 const {
   postCommentsByArticleId,
 } = require("./controllers/postCommentById.controllor");
+const {
+  patchArticleVote,
+} = require("./controllers/articleIDPatch.controllors");
 
 const {
   handlePsqlErrors,
@@ -25,6 +28,7 @@ app.get("/api/articles/:article_id", getArticleId);
 app.get("/api/articles/", getArticles);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", postCommentsByArticleId);
+app.patch("/api/articles/:article_id", patchArticleVote);
 
 app.all("*", (_, res) => {
   res.status(400).send({ msg: "Not Found" });
