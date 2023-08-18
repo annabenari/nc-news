@@ -9,7 +9,6 @@ const {
 const {
   postCommentsByArticleId,
 } = require("./controllers/postCommentById.controllor");
-
 const {
   patchArticleVote,
 } = require("./controllers/articleIDPatch.controllors");
