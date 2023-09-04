@@ -24,9 +24,8 @@ const {
 } = require("./controllers/deleteComment.controllor");
 const { getUsers } = require("./controllers/allUsers.controller");
 
-app.use(cors());
-
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.get("/api/topics", getTopics);
